@@ -1,11 +1,18 @@
 Название комнады:Совместные списки покупок
+
 Номер команды 3
+
 Участники:
 Шитикова Дикмарова Мария, Арина Павловна, Мухина Милана
+
 Функции первой версии:
+
     • регистрация и вход;
+
     • создать список, добавить товары, отметить «куплено», удалить;
+
     • пригласить человека в список по ссылке;
+    
     • страница «мои списки» — свои и те, куда пригласили.
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
