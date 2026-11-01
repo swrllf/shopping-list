@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password; // <-- Добавлен импорт
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Устанавливаем минимальную длину пароля - 10 символов
+        Password::defaults(function () {
+            return Password::min(10);
+        });
     }
 }
