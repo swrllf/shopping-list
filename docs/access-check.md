@@ -1,6 +1,6 @@
 # Контроль доступа (access-check.md)
 
-Команда: 2, проект: shopping-list, стек: Laravel
+Команда: 3, проект: shopping-list, стек: Laravel
 
 ## 1. Матрица доступа
 
