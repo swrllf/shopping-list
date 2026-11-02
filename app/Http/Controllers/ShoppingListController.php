@@ -28,8 +28,10 @@ class ShoppingListController extends Controller
     public function store(Request $request)
     {
         // Пункт 6: Валидация (белый список)
-        $data = $request->validate(['title' => 'required|string|max:255']);
-
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'color' => 'required|string|max:7',
+        ]);
         // Пункт 1: Владелец берется из сессии, а не из формы!
         Auth::user()->shoppingLists()->create($data);
 
@@ -39,10 +41,11 @@ class ShoppingListController extends Controller
     // Пункт 2 и 5: Проверка владельца при просмотре
     public function show(ShoppingList $shoppingList)
     {
-        // Если это не мой список и я не приглашен - 404
+        // Если это не мой список - выдаем 404
         if ($shoppingList->user_id !== Auth::id()) {
             abort(404);
         }
+
         return view('lists.show', compact('shoppingList'));
     }
 
