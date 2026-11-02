@@ -29,4 +29,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+        // Связь: у пользователя много списков
+    public function shoppingLists(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ShoppingList::class);
+    }
 }
