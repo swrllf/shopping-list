@@ -39,10 +39,11 @@ class ShoppingListController extends Controller
     }
 
     // Пункт 2 и 5: Проверка владельца при просмотре
+        // Пункт 2 и 5: Проверка владельца при просмотре
     public function show(ShoppingList $shoppingList)
     {
-        // Если это не мой список - выдаем 404
-        if ($shoppingList->user_id !== Auth::id()) {
+        // Если это не владелец И не админ - выдаем 404
+        if ($shoppingList->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
             abort(404);
         }
 
@@ -60,4 +61,34 @@ class ShoppingListController extends Controller
 
         return redirect()->route('lists.show', $list)->with('success', 'Вы присоединились к списку!');
     }
+
+        // Страница для админа: видеть все списки
+    public function adminIndex()
+    {
+        // Если это не админ - выдаем 403 (Доступ запрещен)
+        if (!Auth::user()->isAdmin()) {
+            abort(403);
+        }
+
+        // Админ видит все списки всех пользователей
+        $allLists = \App\Models\ShoppingList::with('user')->get();
+        
+        return view('lists.admin', compact('allLists'));
+    }
+
+    public function toggleAdminView()
+{
+    // ИСПОЛЬЗУЕМ isRealAdmin(), чтобы разрешить возврат из режима пользователя
+    if (!Auth::user()->isRealAdmin()) {
+        abort(403);
+    }
+
+    if (session()->has('view_as_user')) {
+        session()->forget('view_as_user');
+    } else {
+        session()->put('view_as_user', true);
+    }
+
+    return back();
+}
 }

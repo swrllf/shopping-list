@@ -16,15 +16,36 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     
-                    <!-- НОВАЯ ССЫЛКА: Мои списки (для ПК) -->
                     <x-nav-link :href="route('lists.index')" :active="request()->routeIs('lists.*')">
                         {{ __('Мои списки') }}
                     </x-nav-link>
+
+                    <!-- Ссылка для админа (скрывается, если включен режим пользователя) -->
+                    @if(Auth::user()->isAdmin())
+                        <x-nav-link :href="route('admin.lists')" :active="request()->routeIs('admin.*')">
+                            {{ __('Все списки (Админ)') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                
+                <!-- Кнопка переключения режима (видна реальному админу всегда) -->
+                @if(Auth::user()->isRealAdmin())
+                    <form method="POST" action="{{ route('admin.toggle') }}" class="mr-4">
+                        @csrf
+                        <button type="submit" class="text-sm bg-indigo-100 text-indigo-700 px-3 py-2 rounded-md hover:bg-indigo-200 transition">
+                            @if(session()->has('view_as_user'))
+                                👁️ Вернуться в админку
+                            @else
+                                👤 Смотреть как пользователь
+                            @endif
+                        </button>
+                    </form>
+                @endif
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -76,10 +97,16 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <!-- НОВАЯ ССЫЛКА: Мои списки (для телефона) -->
             <x-responsive-nav-link :href="route('lists.index')" :active="request()->routeIs('lists.*')">
                 {{ __('Мои списки') }}
             </x-responsive-nav-link>
+
+            <!-- Ссылка для админа (скрывается в режиме пользователя) -->
+            @if(Auth::user()->isAdmin())
+                <x-responsive-nav-link :href="route('admin.lists')" :active="request()->routeIs('admin.*')">
+                    {{ __('Все списки (Админ)') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -90,6 +117,21 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                
+                <!-- Кнопка переключения для мобилки (видна реальному админу всегда) -->
+                @if(Auth::user()->isRealAdmin())
+                    <form method="POST" action="{{ route('admin.toggle') }}" class="px-4 py-2">
+                        @csrf
+                        <button type="submit" class="text-sm bg-indigo-100 text-indigo-700 px-3 py-2 rounded-md hover:bg-indigo-200 transition w-full text-left">
+                            @if(session()->has('view_as_user'))
+                                👁️ Вернуться в админку
+                            @else
+                                👤 Смотреть как пользователь
+                            @endif
+                        </button>
+                    </form>
+                @endif
+
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>

@@ -32,7 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/lists/{shoppingList}/items', [ItemController::class, 'store'])->name('items.store');
     Route::patch('/items/{item}/toggle', [ItemController::class, 'toggle'])->name('items.toggle');
     Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
-
+    Route::get('/admin/lists', [ShoppingListController::class, 'adminIndex'])->name('admin.lists');
+    Route::post('/toggle-admin-view', [ShoppingListController::class, 'toggleAdminView'])->name('admin.toggle');
     // Ссылка-приглашение (доступна только авторизованным)
     Route::get('/lists/join/{token}', [ShoppingListController::class, 'join'])->name('lists.join');
 });

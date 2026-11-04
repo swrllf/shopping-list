@@ -34,4 +34,22 @@ class User extends Authenticatable
     {
         return $this->hasMany(ShoppingList::class);
     }
+        /**
+     * Проверяет, является ли пользователь администратором
+     */
+    
+    public function isAdmin(): bool
+    {
+        // Если в сессии включен режим "как пользователь" - возвращаем false
+        if (session()->has('view_as_user')) {
+            return false;
+        }
+        return $this->role === 'admin';
+    }
+
+// Новый метод: проверяет реальную роль, игнорируя сессию (для переключения)
+    public function isRealAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
 }
