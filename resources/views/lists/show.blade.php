@@ -13,6 +13,15 @@
                 <form method="POST" action="{{ route('items.store', $shoppingList) }}" class="mb-6 flex gap-2">
                     @csrf
                     <input type="text" name="name" placeholder="Что купить?" class="border-gray-300 rounded-md shadow-sm w-full" required>
+                    <!-- Выбор категории товара -->
+                    <select name="category" class="border-gray-300 rounded-md shadow-sm h-10">
+                        <option value="Общее">Общее</option>
+                        <option value="Молочные продукты">Молочные продукты</option>
+                        <option value="Овощи и фрукты">Овощи и фрукты</option>
+                        <option value="Мясо и рыба">Мясо и рыба</option>
+                        <option value="Хлеб и выпечка">Хлеб и выпечка</option>
+                        <option value="Бытовая химия">Бытовая химия</option>
+                    </select>
                     <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Добавить</button>
                 </form>
 
@@ -25,8 +34,9 @@
                                 <button type="submit" class="text-xl">
                                     {{ $item->is_bought ? '✅' : '⬜' }}
                                 </button>
-                                <span class="{{ $item->is_bought ? 'line-through text-gray-400' : '' }}">
+                                     <span class="{{ $item->is_bought ? 'line-through text-gray-400' : '' }}">
                                     {{ $item->name }}
+                                    <span class="text-xs text-gray-400">({{ $item->category }})</span>
                                 </span>
                             </form>
 
@@ -37,10 +47,6 @@
                         </li>
                     @endforeach
                 </ul>
-
-                <div class="mt-6">
-                    <a href="{{ route('lists.index') }}" class="text-gray-500 underline">← Назад к спискам</a>
-                </div>
             </div>
         </div>
     </div>

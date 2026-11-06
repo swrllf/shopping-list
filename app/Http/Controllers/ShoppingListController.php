@@ -34,7 +34,6 @@ class ShoppingListController extends Controller
     $data = $request->validate([
         'title' => 'required|string|max:255',
         'color' => 'required|string|max:7',
-        'category' => 'required|string|max:255',
     ]);
     
     // Владелец берется из сессии, а не из формы!
