@@ -7,7 +7,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
 
-                <!-- Создать список -->
+                <!-- Создать список (доступно всем авторизованным) -->
                 <form method="POST" action="{{ route('lists.store') }}" class="mb-6 flex gap-2 items-center">
                     @csrf
                     <input type="text" name="title" placeholder="Название нового списка..."
@@ -27,13 +27,12 @@
 
                 <ul>
                     @forelse($myLists as $list)
-                        <!-- Меняем класс li и добавляем inline-стиль для цвета -->
-                        <li class="mb-2 p-3 rounded flex justify-between items-center shadow-sm"
+                        <li class="mb-2 p-3 rounded flex justify-between items-center shadow-sm" 
                             style="background-color: {{ $list->color }}20; border-left: 5px solid {{ $list->color }};">
-
+                            
                             <div>
-                                <!-- Ссылка окрашивается в цвет списка -->
-                                <a href="{{ route('lists.show', $list) }}" class="font-bold text-lg hover:underline"
+                                <a href="{{ route('lists.show', $list) }}"
+                                    class="font-bold text-lg hover:underline"
                                     style="color: {{ $list->color }};">
                                     {{ $list->title }}
                                 </a>
