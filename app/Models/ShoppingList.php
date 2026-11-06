@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class ShoppingList extends Model
 {
     // Белый список полей (пункт 6 чек-листа)
-    protected $fillable = ['title', 'color'];
+    protected $fillable = ['title', 'color', 'category'];
 
     // Список принадлежит создателю
     public function user(): BelongsTo

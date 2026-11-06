@@ -22,6 +22,15 @@
                         <option value="#fbbf24">Желтый</option>
                     </select>
 
+                    <!-- Выбор категории -->
+                <select name="category" class="border-gray-300 rounded-md shadow-sm h-10">
+                    <option value="Продукты">Продукты</option>
+                    <option value="Бытовая химия">Бытовая химия</option>
+                    <option value="Для дачи">Для дачи</option>
+                    <option value="Электроника">Электроника</option>
+                    <option value="Общее">Общее</option>
+                </select>
+
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Создать</button>
                 </form>
 
@@ -36,6 +45,9 @@
                                     style="color: {{ $list->color }};">
                                     {{ $list->title }}
                                 </a>
+                                <div class="text-xs text-gray-500 mt-1">
+                                    Категория: {{ $list->category }}
+                                </div>
                                 <div class="text-xs text-gray-500 mt-1">
                                     Ссылка для друга: {{ route('lists.join', $list->share_token) }}
                                 </div>
