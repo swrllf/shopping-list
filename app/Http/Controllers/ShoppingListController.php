@@ -83,4 +83,13 @@ class ShoppingListController extends Controller
 
     return back();
 }
+public function show(ShoppingList $shoppingList)
+{
+    // Если это не владелец И не админ - выдаем 404
+    if ($shoppingList->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
+        abort(404);
+    }
+
+    return view('lists.show', compact('shoppingList'));
+}
 }
