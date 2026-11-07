@@ -19,7 +19,8 @@ class ItemController extends Controller
         $data = $request->validate(['name' => 'required|string|max:255']);
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|string|max:255', // Новая строка
+            'category' => 'required|string|max:255',
+            'priority' => 'required|string|in:normal,desired,urgent', // Новая строка
         ]);
         $shoppingList->items()->create($data);
 

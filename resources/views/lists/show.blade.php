@@ -13,6 +13,7 @@
                 <form method="POST" action="{{ route('items.store', $shoppingList) }}" class="mb-6 flex gap-2">
                     @csrf
                     <input type="text" name="name" placeholder="Что купить?" class="border-gray-300 rounded-md shadow-sm w-full" required>
+                    
                     <!-- Выбор категории товара -->
                     <select name="category" class="border-gray-300 rounded-md shadow-sm h-10">
                         <option value="Общее">Общее</option>
@@ -22,31 +23,63 @@
                         <option value="Хлеб и выпечка">Хлеб и выпечка</option>
                         <option value="Бытовая химия">Бытовая химия</option>
                     </select>
+
+                    <!-- Выбор приоритета -->
+                    <select name="priority" class="border-gray-300 rounded-md shadow-sm h-10">
+                        <option value="normal">🟢 Не срочно</option>
+                        <option value="desired">🟡 Желательно</option>
+                        <option value="urgent">🔴 Срочно</option>
+                    </select>
+
                     <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Добавить</button>
                 </form>
 
-                <!-- Список товаров -->
-                <ul>
-                    @foreach($shoppingList->items as $item)
-                        <li class="flex justify-between items-center mb-2 p-2 border-b">
-                            <form method="POST" action="{{ route('items.toggle', $item) }}" class="flex items-center gap-2">
-                                @csrf @method('PATCH')
-                                <button type="submit" class="text-xl">
-                                    {{ $item->is_bought ? '✅' : '⬜' }}
-                                </button>
-                                     <span class="{{ $item->is_bought ? 'line-through text-gray-400' : '' }}">
-                                    {{ $item->name }}
-                                    <span class="text-xs text-gray-400">({{ $item->category }})</span>
-                                </span>
-                            </form>
+                <!-- Список товаров, сгруппированных по категориям -->
+                @php
+                    $groupedItems = $shoppingList->items->groupBy('category');
+                @endphp
 
-                            <form method="POST" action="{{ route('items.destroy', $item) }}">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="text-red-500">Удалить</button>
-                            </form>
-                        </li>
-                    @endforeach
-                </ul>
+                @forelse($groupedItems as $category => $items)
+                    <div class="mb-6">
+                        <h3 class="text-md font-semibold text-gray-600 mb-2 border-b pb-1">
+                            📁 {{ $category }}
+                        </h3>
+                        <ul>
+                            @foreach($items as $item)
+                                <li class="flex justify-between items-center mb-1 p-2 border-b hover:bg-gray-50">
+                                    <form method="POST" action="{{ route('items.toggle', $item) }}" class="flex items-center gap-2">
+                                        @csrf @method('PATCH')
+                                        <button type="submit" class="text-xl">
+                                            {{ $item->is_bought ? '✅' : '⬜' }}
+                                        </button>
+                                        
+                                        <!-- Иконка приоритета -->
+                                        <span class="text-lg">
+                                            @if($item->priority === 'urgent')
+                                                🔴
+                                            @elseif($item->priority === 'desired')
+                                                🟡
+                                            @else
+                                                🟢
+                                            @endif
+                                        </span>
+
+                                        <span class="{{ $item->is_bought ? 'line-through text-gray-400' : 'text-gray-800' }}">
+                                            {{ $item->name }}
+                                        </span>
+                                    </form>
+
+                                    <form method="POST" action="{{ route('items.destroy', $item) }}">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="text-red-500 text-sm hover:underline">Удалить</button>
+                                    </form>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @empty
+                    <li class="text-gray-500">В этом списке пока нет товаров.</li>
+                @endforelse
             </div>
         </div>
     </div>

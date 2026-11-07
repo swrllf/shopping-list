@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Item extends Model
 {
     // Белый список полей (user_id сюда не входит!)
-    protected $fillable = ['name', 'is_bought', 'category'];    
+    protected $fillable = ['name', 'is_bought', 'category', 'priority'];    
 
     public function shoppingList(): BelongsTo
     {
