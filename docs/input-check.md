@@ -56,4 +56,4 @@
 3.  **Для файлов используйте правило `file` + `mimes`**, храните их в `storage` (вне `public`), а имена генерируйте автоматически (через `store()`).
 
 **Скриншоты отказов:**
-![![alt text](image-2.png)(error-empty-title.png)
+![Ошибка пустого поля]![alt text](image-2.png)(error-empty-title.png)
