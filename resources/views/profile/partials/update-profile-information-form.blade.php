@@ -13,7 +13,8 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <!-- ВАЖНО: Добавлен enctype="multipart/form-data" для загрузки файлов -->
+    <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="mt-6 space-y-6">
         @csrf
         @method('patch')
 
@@ -45,6 +46,18 @@
                     @endif
                 </div>
             @endif
+        </div>
+
+        <!-- НОВЫЙ БЛОК: Загрузка аватарки -->
+        <div>
+            <x-input-label for="avatar" :value="__('Аватарка')" />
+            
+            @if($user->avatar)
+                <img src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar" class="w-16 h-16 rounded-full mb-2 object-cover">
+            @endif
+
+            <input id="avatar" name="avatar" type="file" class="mt-1 block w-full" accept="image/*" />
+            <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
         </div>
 
         <div class="flex items-center gap-4">
