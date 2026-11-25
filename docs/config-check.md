@@ -39,8 +39,21 @@
 
 ## 4. CSRF
 - **Токены на формах:** Проверены файлы `lists/index.blade.php`, `lists/show.blade.php`, `profile/partials/update-profile-information-form.blade.php`. Во всех формах, меняющих данные, присутствует директива `@csrf`.
-- **SameSite cookie:** В `config/session.php` установлено `'same_site' => 'lax'`.
 ![alt text](image-6.png)
 ![alt text](image-7.png)
 
+- **SameSite cookie:** В `config/session.php` установлено `'same_site' => 'lax'`.
 ![alt text](image-8.png)
+
+## 5. Куки сессий
+
+- **HttpOnly:** Да (проверено в F12 -> Application -> Cookies).
+- **SameSite:** Lax (уже проверено в п. 4).
+- **Secure:** Нет (на локальном сервере без HTTPS). На продакшене будет включено.
+![alt text](image-9.png)
+
+## 6. Самая опасная находка аудита зависимостей
+
+По результатам `composer audit` критических уязвимостей в зависимостях не обнаружено (`No security vulnerability advisories found`). Все используемые пакеты (Laravel Framework, Breeze, Guzzle и др.) обновлены до актуальных версий.
+
+Если бы уязвимость была найдена, самой опасной считалась бы та, которая позволяет выполнить произвольный код (RCE) или обойти аутентификацию. Поэтому рекомендуется регулярно запускать `composer audit` и обновлять зависимости.
